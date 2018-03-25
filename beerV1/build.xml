@@ -41,6 +41,7 @@
 	<target name="copyToDeploy" depends="compile" description="copy src files to the deploy structure">
 		<copy file="etc/web.xml" todir="${tomcat.dir}\Beer-v1\WEB-INF" />
 		<copy file="web/form.html" todir="${tomcat.dir}\Beer-v1\" />
+		<copy file="web/result.jsp" todir="${tomcat.dir}\Beer-v1\" />
 		<copy todir="${tomcat.dir}\Beer-v1\WEB-INF\classes\com\example">
 			<fileset dir="classes/com/example">
 			</fileset>
