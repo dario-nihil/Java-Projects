@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="BeerV1" default="Main" basedir=".">
+
+	<description>
+		Simple Servlet app
+	</description>
+
+	<!-- set global properties for this build -->
+	<property name="tomcat.dir" location="..\..\..\Apache Software Foundation\apache-tomcat-7.0.85\webapps" />
+	<property name="externaljars" value="..\..\..\Apache Software Foundation\apache-tomcat-7.0.85\lib" />
+	
+	<path id="java.classpath">
+		<fileset dir="${externaljars}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<!-- clean the deploy structure -->
+	<target name="cleanDeploy" description="clean the structure of the deploy">
+		<delete dir="${tomcat.dir}\Beer-v1" failonerror="false" verbose="true" />
+		<delete dir="classes/com/example" failonerror="true" verbose="true" />
+	</target>
+
+	<!-- create the deploy structure -->
+	<target name="makeDeploy" depends="cleanDeploy" description="create the deploy directory structure">
+		<mkdir dir="${tomcat.dir}\Beer-v1\WEB-INF\lib" />
+		<mkdir dir="${tomcat.dir}\Beer-v1\WEB-INF\classes\com\example\web" />
+		<mkdir dir="${tomcat.dir}\Beer-v1\WEB-INF\classes\com\example\model" />
+		<mkdir dir="classes/com/example/web" />
+		<mkdir dir="classes/com/example/model" />
+	</target>
+
+	<!-- compile the src-->
+	<target name="compile" depends="makeDeploy" description="compile the java src">
+		<javac srcdir="src/com/example/web" destdir="${tomcat.dir}\Beer-v1\WEB-INF\classes" >
+			<classpath refid="java.classpath" />
+		</javac>
+	</target>
+
+	<!-- copy files to the deploy -->
+	<target name="copyToDeploy" depends="compile" description="copy src files to the deploy structure">
+		<copy file="etc/web.xml" todir="${tomcat.dir}\Beer-v1\WEB-INF" />
+		<copy file="web/form.html" todir="${tomcat.dir}\Beer-v1\" />
+		<copy todir="${tomcat.dir}\Beer-v1\WEB-INF\classes\com\example\web">
+			<fileset dir="classes/com/example/web">
+			</fileset>
+		</copy>
+	</target>
+
+	<!-- the main target-->
+	<target name="Main" depends="cleanDeploy, makeDeploy, compile, copyToDeploy">
+	</target>
+
+</project>
